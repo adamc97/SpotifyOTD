@@ -192,7 +192,6 @@ def collect_spotify_songs(access_token):
         response = get(tracks_url, {}, headers=header)
         response_json = response.json()
 
-        print(response_json['items'])
 
         song_count = len(response_json['items'])
 

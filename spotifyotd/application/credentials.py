@@ -9,7 +9,6 @@ client_id = os.environ.get('client_id')
 client_secret = os.environ.get('client_secret')
 
 redirect_uri = 'http://127.0.0.1:8000/onthisday/'
-#redirect_uri = 'https://sponthisday.com/onthisday/'
 auth_url = 'https://accounts.spotify.com/authorize'
 token_url = 'https://accounts.spotify.com/api/token'
 lib_url = 'https://api.spotify.com/v1/me/tracks/'
