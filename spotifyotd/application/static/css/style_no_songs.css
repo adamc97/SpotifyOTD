@@ -1,0 +1,30 @@
+@import url('https://fonts.googleapis.com/css?family=Proxima+Nova');
+
+body {
+    background: rgba(0, 0, 0, 0.7);
+    background-repeat: no-repeat;
+    height: 100vh;
+    overflow: hidden;
+    font-family: 'Proxima Nova';
+    color: white;
+    margin: 0;
+}
+
+.Aligner {
+    height: 40%;
+    margin: 10%;
+    display: flex;
+    align-items: center;
+    justify-content: space-around;
+    flex-direction: column;
+  }
+  
+  .Aligner-item-1 {
+    max-width: 50%;
+    font-size: xx-large;
+  }
+
+  .Aligner-item-2 {
+    max-width: 50%;
+    font-size: x-large;
+  }

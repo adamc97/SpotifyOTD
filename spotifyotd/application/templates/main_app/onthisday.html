@@ -1,0 +1,194 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset='UTF-8'>
+        <meta name='description' content='Homepage for Spotify OTD'>
+        <link rel='icon' type='image/x-icon' href='\static\images\Spotify_Icon_CMYK_Green.png'>
+        <link rel='stylesheet' type='text/css' href='..\..\static\css\style_songs.css'>
+        <title>On This Day</title>
+    </head>
+    <body>
+        <div class='heading'>
+            <div class='playlist_export'>
+                <div class="button_export">
+                    <button id='btnExport' onclick='create_playlist()'>EXPORT</button>
+                </div>
+                <div class='enhance_export'>
+                    <input type='checkbox' id='enhancebox'></input>
+                    <span> Enhance</span>
+                </div>
+            </div>
+            <div class="logo">
+                <img class="logoimg" src="../../static/images/onthisday logo.png">
+            </div>
+        </div>
+        <hr>
+        <div class='carousel'>
+            <button class='carousel_button-left'>&lt;</button>
+                <ul class='carousel_track'>
+                    {% for song in info %}
+                    <li class='carousel_slide'>
+                        <img class='carousel_image' src={{ song.artwork }}>
+                        <div class='carousel_info'>
+                            <a class='song_name' href={{ song.url_track }} target='_blank'>{{ song.track }}</a>
+                            <br />
+                            <a href={{ song.url_album }} target='_blank'>{{ song.album }}</a>
+                            <div class="artists">
+                                {% for artist in song.artists %}
+                                    {% for key, value in artist.items %}
+                                        <a href={{ value }} target='_blank'>{{key}},</a>
+                                    {% endfor %}
+                                {% endfor %}
+                            </div>
+                            <br />
+                            <br />
+                            <iframe style="border-radius:12px" src={{song.url_embed}} width="500" height="152" frameBorder="0" allowfullscreen="" allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture" loading="lazy"></iframe>
+                        </div>
+                    </li>
+                    {% endfor %}
+                </ul>
+            <button class='carousel_button-right'>&gt;</button>
+        </div>
+        <hr>
+        <div class='years_footer'>
+            {% for key, value in all_years.items %}
+                {% if value > -1 %}
+                    <button class='button_{{key}}'>{{key}}</button>
+                {% else %}
+                    <p>&#8226;</p>
+                {% endif %}
+            {% endfor %}
+        </div>
+        <div hidden id='years_slides_dict'>
+            {% for key, value in all_years.items %}
+                {% if value > -1 %}
+                    <p id='slide_{{ key }}'>{{ value }}<p>
+                {% endif %}
+            {% endfor %}
+        </div>
+        <script>
+            
+            var userid = '{{ user_id }}';
+            var playlistname = '{{ playlist_name }}';
+            var accesstoken = '{{ access_token }}';
+            var uri_list_enhanced = {{ uri_list_enhanced|safe }};
+            var uri_list = {{ uri_list|safe }};
+
+            function create_playlist(){
+                document.querySelector('#btnExport').style.color = 'gray'
+                var create_url = 'https://api.spotify.com/v1/users/' + userid + '/playlists'
+                var create_data = {
+                    'name': playlistname,
+                    'public': 'false'
+                }
+                var xhr_create = new XMLHttpRequest();
+                xhr_create.open('POST', create_url, true);
+                xhr_create.setRequestHeader('Content-Type', 'application/json');
+                xhr_create.setRequestHeader('Authorization', 'Bearer ' + accesstoken);
+                xhr_create.send(JSON.stringify(create_data));
+
+                xhr_create.onreadystatechange = function() {
+                    if(xhr_create.readyState === 4 && xhr_create.status >= 200 && xhr_create.status < 400) {
+                        var playlist_id = JSON.parse(xhr_create.responseText).id
+                        var add_url = 'https://api.spotify.com/v1/playlists/' + playlist_id + '/tracks/'
+                        if (document.getElementById('enhancebox').checked){
+                            add_data = {
+                                'uris':uri_list_enhanced
+                            }
+                        }
+                        else {
+                            add_data = {
+                                'uris':uri_list
+                            }
+                        }
+                        var xhr_add = new XMLHttpRequest();
+                        xhr_add.open('POST', add_url, true);
+                        xhr_add.setRequestHeader('Content-Type', 'application/json');
+                        xhr_add.setRequestHeader('Authorization', 'Bearer ' + accesstoken);
+                        xhr_add.send(JSON.stringify(add_data));
+                        document.querySelector('#btnExport').style.color = 'white'
+                    };              
+                };
+            };
+
+            var year_indexes_arr = {{ available_years|safe }};
+            var colours_arr = {{colours|safe}};
+            var track = document.querySelector('.carousel_track');
+            var slides = Array.from(track.children);
+            var next_button = document.querySelector('.carousel_button-right');
+            var prev_button = document.querySelector('.carousel_button-left');
+            var year_buttons = document.querySelectorAll('.years_footer button');
+            
+            for (var i=0; i<slides.length; i++) {
+                slides[i].style.left = 2 * (window.screen.availWidth*i) + 'px';
+            }
+            
+            var first_year = year_indexes_arr[0]
+            document.querySelector('.button_'+first_year).style.fontWeight = '900'
+
+            var rgb_vals = colours_arr[0]
+            document.body.style.background = 'linear-gradient(to bottom right, rgba(0, 0, 0, 0.7) 75%, rgba(' + rgb_vals + ', 0.7))'; 
+
+            slide_index = 0
+            next_button.addEventListener('click', e => {
+                var current_slide = slides[slide_index];
+                var next_slide = current_slide.nextElementSibling;
+                var move_dist = next_slide.style.left;
+                track.style.transform = 'translateX(-' + move_dist + ')';
+                slide_index += 1
+                var curr_year = year_indexes_arr[slide_index]
+                var prev_year = year_indexes_arr[slide_index-1]
+                document.querySelector('.button_'+prev_year).style.fontWeight = '400'
+                document.querySelector('.button_'+curr_year).style.fontWeight = '900'
+                var rgb_vals = colours_arr[slide_index]
+                document.body.style.background = 'linear-gradient(to bottom right, rgba(0, 0, 0, 0.7) 75%, rgba(' + rgb_vals + ', 0.7))'; 
+            })
+            prev_button.addEventListener('click', e => {
+                var current_slide = slides[slide_index];
+                var prev_slide = current_slide.previousElementSibling;
+                var move_dist = prev_slide.style.left;
+                track.style.transform = 'translateX(-' + move_dist + ')';
+                slide_index -= 1
+                var curr_year = year_indexes_arr[slide_index]
+                var next_year = year_indexes_arr[slide_index+1]
+                document.querySelector('.button_'+next_year).style.fontWeight = '400'
+                document.querySelector('.button_'+curr_year).style.fontWeight = '900'
+                var rgb_vals = colours_arr[slide_index]
+                document.body.style.background = 'linear-gradient(to bottom right, rgba(0, 0, 0, 0.7) 75%, rgba(' + rgb_vals + ', 0.7))'; 
+            })
+
+            for (i of year_buttons) {
+                (function(i) {
+                    i.addEventListener('click', function() {
+                        var selected_year = i.innerText
+                        var new_slide_index = document.getElementById('slide_'+selected_year).innerText
+                        var new_slide = slides[new_slide_index]
+                        var old_slide = slides[slide_index]
+                        var new_move_dist = new_slide.style.left
+                        track.style.transform = 'translateX(-' + new_move_dist + ')'
+                        var old_year = year_indexes_arr[slide_index]
+                        var new_year = year_indexes_arr[new_slide_index]
+                        document.querySelector('.button_'+old_year).style.fontWeight = '400'
+                        document.querySelector('.button_'+new_year).style.fontWeight = '900'
+                        slide_index = Number(new_slide_index)
+                        var rgb_vals = colours_arr[slide_index]
+                        document.body.style.background = 'linear-gradient(to bottom right, rgba(0, 0, 0, 0.7) 75%, rgba(' + rgb_vals + ', 0.7))'; 
+                    })
+                })(i)
+            }
+
+            for (i=0; i<slides.length; i++){
+                var song_name = document.getElementsByClassName('song_name')[i].innerText
+                var song_name_wrap = song_name.replace(/(?![^\n]{40}$)([^\n]{40})\s/g, '$1\n');
+                document.getElementsByClassName('song_name')[i].innerText = song_name_wrap
+
+                var num_artists = document.getElementsByClassName('artists')[i].getElementsByTagName('a').length
+                var artist_names = document.getElementsByClassName('artists')[i].getElementsByTagName('a')[num_artists - 1].innerText
+                var artist_names_clipped = artist_names.slice(0, -1)
+                document.getElementsByClassName('artists')[i].getElementsByTagName('a')[num_artists - 1].innerText = artist_names_clipped
+                console.log(artist_names)
+                console.log(artist_names_clipped)
+            }
+        </script>
+    </body>
+</html>

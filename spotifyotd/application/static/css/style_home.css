@@ -1,0 +1,74 @@
+@import url('https://fonts.googleapis.com/css?family=Proxima+Nova');
+
+body {
+    background-image: url('../../static/images/home_background_2.jpg');
+    background-repeat: no-repeat;
+    background-position: 50%;
+    background-size: cover;
+}
+
+header {
+    position: absolute;
+    left: 50%;
+    transform: translate(-50%);
+    top: 1%;
+    font-family: 'Proxima Nova';
+    color: black;
+}
+
+.home_content {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: space-around;
+    height: 90vh;
+}
+
+h1 {
+    color: rgb(0, 0, 0);
+    font-family: 'Proxima Nova';
+    font-weight: 900;
+    font-size: 300%;
+    color: black;
+}
+
+button {
+    background-color: rgb(30, 215, 96);
+    color: rgb(0, 0, 0);
+    font-family: 'Proxima Nova';
+    font-size: 100%;
+    font-weight: 900;
+    width: 150px;
+    height: 60px;
+    border: 0px;
+    border-radius: 50px;
+}
+
+button:hover {
+    background-color: rgb(31, 223, 100);
+    font-size: 110%;
+    transform: scale(1.1);
+}
+
+button:active {
+    border: 3px solid black;
+    border-radius: 50px;
+    background-color: rgb(22, 156, 70);
+    font-size: 100%;
+    width: 150px;
+    height: 60px;
+}
+
+footer {
+    position: absolute;
+    left: 50%;
+    transform: translate(-50%);
+    bottom: 1%;
+    font-family: 'Proxima Nova';
+    color: black;
+}
+
+a {
+    color: black;
+    text-decoration: none;
+}

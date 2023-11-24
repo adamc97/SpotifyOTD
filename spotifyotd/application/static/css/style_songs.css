@@ -1,0 +1,245 @@
+@import url('https://fonts.googleapis.com/css?family=Proxima+Nova');
+
+body {
+    background: linear-gradient(to bottom right, rgba(0, 0, 0, 0.7) 65%, rgba(128, 0, 128, 0.7)); 
+    background-repeat: no-repeat;
+    overflow: hidden;
+    font-family: 'Proxima Nova';
+    color: white;
+    margin: 0;
+    height: 100vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+}
+
+.heading {
+    display: flex;
+    justify-content: space-between;
+    flex-direction: row;
+    height: 10vh;
+    align-items: center;
+}
+
+.heading h1 {
+    margin-left: 2%;
+    font-size: 4vh;
+}
+
+.heading .logo {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    height: 100%;
+}
+
+.heading .logo .logoimg {
+    height: 90%;
+    padding: 3%;
+}
+
+.playlist_export {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    margin-right: 3%;
+    height: 100%;
+    padding-left: 1%;
+}
+
+.button_export {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+
+#btnExport {
+    background-color: black;
+    font-size: 100%;
+    font-weight: 900;
+    width: 120px;
+    height: 48px;
+    border: 0px;
+    border-radius: 40px;
+    color: white;
+    cursor: pointer;
+}
+
+#btnExport:hover {
+    font-size: 110%;
+    transform: scale(1.1);
+}
+
+#btnExport:active {
+    font-size: 100%;
+    transform: scale(1);
+    
+}
+
+.enhance_export {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    padding-left: 3%;
+}
+
+.enhance_export a {
+    font-size: 1.5vh;
+}
+
+#enhancebox {
+    -webkit-appearance: none;
+    width: 1.3em;
+    height: 1.3em;
+    padding: 5px;
+    border: 2px solid black;
+    border-radius: 50%;
+    background-color:  transparent;
+}
+
+#enhancebox:checked {
+    background-color:  rgb(30, 215, 96);
+}
+
+#enhancebox:checked:after {
+    background-color:  rgb(30, 215, 96);
+}
+
+hr {
+    margin: 0;
+}
+
+.carousel {
+    position: relative;
+    height: 80vh;
+    margin: 0;
+    padding: 0;
+}
+
+.carousel_track {
+    list-style: none;
+    transition: transform 500ms ease-in;
+    height: 100%;
+    margin: 0;
+}
+
+.carousel_slide {
+    position: absolute;
+    top: 10%;
+    display: flex;
+    flex-direction: row;
+    height: 80%;
+    padding-left: 7%;
+}
+
+.carousel_image {
+    height: 100%;
+    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+}
+
+.carousel_info {
+    display: flex;
+    flex-direction: column;
+    color: white;
+    text-decoration: none;
+    font-size: 150%;
+    font-family: 'Proxima Nova';
+    flex-shrink: 0;
+    padding-left: 3%;
+}
+
+a {
+    color: white;
+    text-decoration: none;
+    overflow: hidden;
+}
+
+a:visited {
+    color: white;
+    text-decoration: none;
+}
+
+a:active {
+    color: white;
+    text-decoration: none;
+}
+
+.carousel_button-left {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    left: 2%;
+    background-color: rgb(0, 0, 0, 0.1);
+    border: none;
+    border-radius: 1%;
+    padding: 1%;
+    color: rgb(255, 255, 255, 0.5);
+    font-size: 125%;
+    cursor: pointer;
+    z-index: 1;
+}
+
+.carousel_button-left:hover {
+    color: rgb(255, 255, 255);
+}
+
+.carousel_button-right {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    right: 2%;
+    background-color: rgb(0, 0, 0, 0.1);
+    border: none;
+    border-radius: 1%;
+    padding: 1%;
+    color: rgb(255, 255, 255, 0.5);
+    font-size: 125%;
+    cursor: pointer;
+}
+
+.carousel_button-right:hover {
+    color: rgb(255, 255, 255);
+}
+
+.song_name {
+    font-size: 170%;
+}
+
+/*.artists_dict {
+    display: flex;
+    flex-direction: row;
+    justify-content: left;
+}*/
+
+
+.years_footer {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    margin-left: 3%;
+    margin-right: 3%;
+    align-items: center;
+    height: 10vh;
+    margin-top: 0%;
+    margin-bottom: 0%;
+    font-size: 2vh;
+}
+
+.years_footer button {
+    background-color: transparent;
+    font-family: 'Proxima Nova';
+    color: white;
+    width: fit-content;
+    height: fit-content;
+    font-size: 100%;
+    display: block;
+    margin-block-start: 1em;
+    margin-block-end: 1em;
+    margin-inline-start: 0px;
+    margin-inline-end: 0px;
+    border: none;
+    cursor: pointer;
+    margin-top: 0%;
+    margin-bottom: 0%;
+}
